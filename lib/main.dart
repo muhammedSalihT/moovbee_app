@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moovbe_app/screens/view_models/bus_seat_viewmodel.dart';
 import 'package:moovbe_app/screens/view_models/login_viewmodel.dart';
 import 'package:moovbe_app/screens/views/splash_screen.dart';
 import 'package:moovbe_app/utils/constents.dart';
@@ -18,6 +19,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => LoginViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BusSeatViewModel(),
         )
       ],
       child: MaterialApp(

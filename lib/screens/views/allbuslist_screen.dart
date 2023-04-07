@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moovbe_app/screens/views/bus_seat_layout_screen.dart';
+import 'package:moovbe_app/screens/views/manage_driver_screen.dart';
 import 'package:moovbe_app/utils/constents.dart';
 import 'package:moovbe_app/utils/responsive.dart';
 import 'package:moovbe_app/utils/routes.dart';
@@ -35,7 +36,9 @@ class AllBusListScreen extends StatelessWidget {
                 subHeading: "Manage your Driver",
                 gridImage:
                     "assets/99-996004_get-driving-directions-car-driver-removebg-preview 1.png",
-                onTap: () {},
+                onTap: () {
+                  RoutesManager.nextScreen(screen: const ManageDriverScreen());
+                },
               )
             ],
           ),
@@ -153,9 +156,7 @@ class CustomGridWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       child: GestureDetector(
-        onTap: () {
-          onTap;
-        },
+        onTap: onTap,
         child: Container(
           height: Responsive.getWidth(context) * .5,
           width: Responsive.getWidth(context) * .42,

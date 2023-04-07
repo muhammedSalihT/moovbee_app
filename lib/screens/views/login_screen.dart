@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moovbe_app/screens/view_models/login_viewmodel.dart';
 import 'package:moovbe_app/screens/views/allbuslist_screen.dart';
+import 'package:moovbe_app/screens/views/widgets/custom_button_widget.dart';
+import 'package:moovbe_app/screens/views/widgets/custom_textfield_widget.dart';
 import 'package:moovbe_app/utils/constents.dart';
 import 'package:moovbe_app/utils/responsive.dart';
 import 'package:moovbe_app/utils/routes.dart';
@@ -40,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.fromLTRB(
                                 0, Responsive.getHeight(context) * .17, 0, 0),
-                            child: Text(
+                            child: const Text(
                               "Welcome",
                               style: TextStyle(
                                   color: AppConstents.kWhiteColor,
@@ -48,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          Text(
+                          const Text(
                             "Manage your bus and drivers",
                             style: TextStyle(
                                 letterSpacing: 2.5,
@@ -70,27 +72,11 @@ class LoginScreen extends StatelessWidget {
           ),
           Align(
             alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(30),
-              child: GestureDetector(
-                onTap: () =>
-                    RoutesManager.nextScreen(screen: const AllBusListScreen()),
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: AppConstents.appPrimeryColor),
-                  width: double.infinity,
-                  height: Responsive.getHeight(context) * .07,
-                  child: Center(
-                    child: Text(
-                      "Login",
-                      style: TextStyle(
-                          color: AppConstents.kWhiteColor, fontSize: 20),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            child: CustomButtonWidget(
+                title: "Login",
+                onTap: () {
+                  RoutesManager.nextScreen(screen: const AllBusListScreen());
+                }),
           )
         ],
       ),
@@ -98,52 +84,9 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    super.key,
-    required this.hintText,
-  });
 
-  final String hintText;
 
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 8),
-      child: TextFormField(
-        textAlign: TextAlign.center,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Enter $hintText";
-          } else {
-            return null;
-          }
-        },
-        decoration: InputDecoration(
-          filled: true,
-          fillColor: Colors.grey.shade300,
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(15),
-            ),
-            borderSide: BorderSide(
-              color: Colors.transparent,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(15),
-            ),
-            borderSide: BorderSide(
-              color: Colors.grey.shade400,
-            ),
-          ),
-          hintText: hintText,
-        ),
-      ),
-    );
-  }
-}
+
 
 // class TextFormWidget extends StatelessWidget {
 //   final bool hideData;
