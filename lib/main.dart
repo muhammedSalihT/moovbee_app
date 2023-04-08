@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moovbe_app/screens/view_models/add_driver_viewmodel.dart';
 import 'package:moovbe_app/screens/view_models/bus_list_viewmodel.dart';
 import 'package:moovbe_app/screens/view_models/bus_seat_viewmodel.dart';
 import 'package:moovbe_app/screens/view_models/driver_list_viewmodel.dart';
@@ -30,6 +31,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => DriverListViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AddDriverViewModel(),
         )
       ],
       child: MaterialApp(

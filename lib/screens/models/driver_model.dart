@@ -1,9 +1,5 @@
 class DriverModel {
-  DriverModel({
-    required this.status,
-    required this.driverList,
-    this.messege
-  });
+  DriverModel({required this.status, required this.driverList, this.messege});
 
   bool status;
   List<DriverList> driverList;
@@ -26,13 +22,13 @@ class DriverList {
     required this.id,
     required this.name,
     required this.mobile,
-    required this.licenseNo,
+    this.licenseNo,
   });
 
   int id;
   String name;
   String mobile;
-  String licenseNo;
+  String? licenseNo;
 
   factory DriverList.fromJson(Map<String, dynamic> json) => DriverList(
         id: json["id"],

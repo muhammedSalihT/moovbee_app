@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moovbe_app/screens/models/driver_model.dart';
 import 'package:moovbe_app/screens/view_models/driver_list_viewmodel.dart';
 import 'package:moovbe_app/screens/views/add_driver_screen.dart';
 import 'package:moovbe_app/screens/views/widgets/custom_button_widget.dart';
@@ -147,7 +148,12 @@ class _DriverListScreenState extends State<DriverListScreen> {
                                           ],
                                         ),
                                         ElevatedButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              showAlertDialog(
+                                                context: context,
+                                                driverDeatils: driverDeatils,
+                                              );
+                                            },
                                             child: const Text("Delete"))
                                       ],
                                     ),
@@ -179,6 +185,65 @@ class _DriverListScreenState extends State<DriverListScreen> {
           }
         }),
       ),
+    );
+  }
+
+  showAlertDialog({
+    required BuildContext context,
+    required DriverList driverDeatils,
+  }) {
+    final alert = Consumer<DriverListViewModel>(
+        builder: (context, driverListProvider, _) {
+      return AlertDialog(
+        title: const Text(
+          "Are you sure you want Delete?",
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        backgroundColor: AppConstents.appPrimeryColor,
+        actionsAlignment: MainAxisAlignment.center,
+        actions: [
+          driverListProvider.isDeleting
+              ? const CupertinoActivityIndicator(
+                  color: AppConstents.kWhiteColor,
+                  radius: 15,
+                )
+              : ElevatedButton(
+                  onPressed: () async {
+                    driverListProvider.isDeleting
+                        ? null
+                        : driverListProvider.deleteDriverFromList(
+                            context: context,
+                            driverId: driverDeatils.id.toString());
+                  },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                  ),
+                  child: const Text(
+                    "Yes",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(Colors.white),
+            ),
+            child: const Text(
+              "No",
+              style: TextStyle(color: Colors.blue),
+            ),
+          )
+        ],
+      );
+    });
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }
