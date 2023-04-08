@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moovbe_app/screens/view_models/bus_list_viewmodel.dart';
 import 'package:moovbe_app/screens/views/bus_seat_layout_screen.dart';
-import 'package:moovbe_app/screens/views/manage_driver_screen.dart';
+import 'package:moovbe_app/screens/views/driver_list_screen.dart';
 import 'package:moovbe_app/utils/constents.dart';
 import 'package:moovbe_app/utils/responsive.dart';
 import 'package:moovbe_app/utils/routes.dart';
@@ -40,7 +40,7 @@ class AllBusListScreen extends StatelessWidget {
                 gridImage:
                     "assets/99-996004_get-driving-directions-car-driver-removebg-preview 1.png",
                 onTap: () {
-                  RoutesManager.nextScreen(screen: const ManageDriverScreen());
+                  RoutesManager.nextScreen(screen: const DriverListScreen());
                 },
               )
             ],

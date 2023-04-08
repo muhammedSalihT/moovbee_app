@@ -24,6 +24,7 @@ class SecureStore {
   static Future<String> getToken() async {
     const data = FlutterSecureStorage();
     String? token = await data.read(key: "Token");
+    log("getTokn$token");
     return token.toString();
   }
 }
