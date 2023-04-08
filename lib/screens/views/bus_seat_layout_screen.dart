@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:moovbe_app/screens/models/buslist_model.dart';
 import 'package:moovbe_app/screens/view_models/bus_seat_viewmodel.dart';
@@ -17,7 +16,7 @@ class BusSeatLayoutScreen extends StatelessWidget {
       appBar: AppBar(
         toolbarHeight: 100,
         centerTitle: true,
-        title: const Text("Ksrtc scania"),
+        title: Text(busListModel.subName),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
