@@ -1,11 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:moovbe_app/screens/view_models/login_viewmodel.dart';
-import 'package:moovbe_app/screens/views/allbuslist_screen.dart';
 import 'package:moovbe_app/screens/views/widgets/custom_button_widget.dart';
 import 'package:moovbe_app/screens/views/widgets/custom_textfield_widget.dart';
 import 'package:moovbe_app/utils/constents.dart';
 import 'package:moovbe_app/utils/responsive.dart';
-import 'package:moovbe_app/utils/routes.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -17,25 +16,25 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Column(
-            children: [
-              Stack(
-                children: [
-                  Container(
-                    height: Responsive.getHeight(context) * .3,
-                    width: double.infinity,
-                    color: const Color(0xff2B2B2B),
-                    child: Image.asset(
-                      "assets/Polygon 1.png",
+          Form(
+            key: loginProvider.formKey,
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    Container(
                       height: Responsive.getHeight(context) * .3,
                       width: double.infinity,
-                      fit: BoxFit.fill,
+                      color: const Color(0xff2B2B2B),
+                      child: Image.asset(
+                        "assets/Polygon 1.png",
+                        height: Responsive.getHeight(context) * .3,
+                        width: double.infinity,
+                        fit: BoxFit.fill,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Form(
-                      key: loginProvider.formKey,
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -59,23 +58,38 @@ class LoginScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                    ),
-                  )
-                ],
-              ),
-              const Padding(
-                padding: EdgeInsets.only(top: 30),
-                child: CustomTextField(hintText: "Enter Username"),
-              ),
-              const CustomTextField(hintText: "Enter Password"),
-            ],
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: CustomTextField(
+                      hintText: "Enter Username",
+                      controller: loginProvider.emailController),
+                ),
+                CustomTextField(
+                    hintText: "Enter Password",
+                    controller: loginProvider.passController),
+              ],
+            ),
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: CustomButtonWidget(
-                title: "Login",
+                title: loginProvider.userChecking
+                    ? const CupertinoActivityIndicator(
+                        radius: 15,
+                        color: AppConstents.kWhiteColor,
+                      )
+                    : const Text(
+                        "Login",
+                        style: TextStyle(
+                            color: AppConstents.kWhiteColor, fontSize: 20),
+                      ),
                 onTap: () {
-                  RoutesManager.nextScreen(screen: const AllBusListScreen());
+                  loginProvider.userChecking
+                      ? null
+                      : loginProvider.verifyUser(context);
                 }),
           )
         ],

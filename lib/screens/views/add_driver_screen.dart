@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moovbe_app/screens/views/widgets/custom_button_widget.dart';
 import 'package:moovbe_app/screens/views/widgets/custom_textfield_widget.dart';
+import 'package:moovbe_app/utils/constents.dart';
 import 'package:moovbe_app/utils/routes.dart';
 
 class AddDriverScreen extends StatelessWidget {
@@ -27,7 +28,10 @@ class AddDriverScreen extends StatelessWidget {
             ],
           ),
           CustomButtonWidget(
-            title: "Save",
+            title: const Text(
+              "Save",
+              style: TextStyle(color: AppConstents.kWhiteColor, fontSize: 20),
+            ),
             onTap: () {
               RoutesManager.backScreen();
             },

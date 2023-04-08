@@ -1,19 +1,19 @@
 class LoginModel {
   LoginModel({
-    required this.status,
-    required this.name,
-    required this.refresh,
-    required this.access,
-    required this.message,
-    required this.urlId,
+     this.status,
+     this.name,
+     this.refresh,
+     this.access,
+     this.message,
+     this.urlId,
   });
 
-  bool status;
-  String name;
-  String refresh;
-  String access;
-  String message;
-  String urlId;
+  bool? status;
+  String? name;
+  String? refresh;
+  String? access;
+  String? message;
+  String? urlId;
 
   factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
         status: json["status"],

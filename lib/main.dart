@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moovbe_app/screens/view_models/bus_list_viewmodel.dart';
 import 'package:moovbe_app/screens/view_models/bus_seat_viewmodel.dart';
 import 'package:moovbe_app/screens/view_models/login_viewmodel.dart';
 import 'package:moovbe_app/screens/views/splash_screen.dart';
@@ -22,17 +23,20 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => BusSeatViewModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BusListViewModel(),
         )
       ],
       child: MaterialApp(
         navigatorKey: RoutesManager.navigatorKey,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          elevatedButtonTheme: ElevatedButtonThemeData(
+          elevatedButtonTheme: const ElevatedButtonThemeData(
               style: ButtonStyle(
                   backgroundColor:
                       MaterialStatePropertyAll(AppConstents.appPrimeryColor))),
-          appBarTheme: AppBarTheme(color: AppConstents.appSecondryColor),
+          appBarTheme: const AppBarTheme(color: AppConstents.appSecondryColor),
           // This is the theme of your application.
           //
           // Try running your application with "flutter run". You'll see the

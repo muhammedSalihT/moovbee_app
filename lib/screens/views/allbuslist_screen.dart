@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:moovbe_app/screens/view_models/bus_list_viewmodel.dart';
 import 'package:moovbe_app/screens/views/bus_seat_layout_screen.dart';
 import 'package:moovbe_app/screens/views/manage_driver_screen.dart';
 import 'package:moovbe_app/utils/constents.dart';
 import 'package:moovbe_app/utils/responsive.dart';
 import 'package:moovbe_app/utils/routes.dart';
+import 'package:provider/provider.dart';
 
 class AllBusListScreen extends StatelessWidget {
   const AllBusListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final busListProvider = Provider.of<BusListViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -52,7 +55,7 @@ class AllBusListScreen extends StatelessWidget {
                     child: Row(
                       children: const [
                         Text(
-                          "21",
+                          "4 ",
                           style: TextStyle(fontSize: 20),
                         ),
                         Text("Buses Found", style: TextStyle(fontSize: 20)),
@@ -68,12 +71,13 @@ class AllBusListScreen extends StatelessWidget {
                           );
                         },
                         itemBuilder: (context, index) {
+                          final busDetails = busListProvider.busList[index];
                           return Container(
                             height: 100,
                             width: double.infinity,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: AppConstents.kWhiteColor,
-                                borderRadius: const BorderRadiusDirectional.all(
+                                borderRadius: BorderRadiusDirectional.all(
                                     Radius.circular(15))),
                             child: Row(
                               children: [
@@ -89,44 +93,52 @@ class AllBusListScreen extends StatelessWidget {
                                   ),
                                   child: Image.asset(
                                     fit: BoxFit.fitWidth,
-                                    "assets/image 3 (1).png",
+                                    busDetails.busImage,
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: const [
-                                      Text(
-                                        "KSRTC",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500),
-                                      ),
-                                      Text(
-                                        "Swift scania series",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500),
-                                      )
-                                    ],
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 15),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              busDetails.busName,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            Text(
+                                              busDetails.subName,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.w500),
+                                            )
+                                          ],
+                                        ),
+                                        ElevatedButton(
+                                            onPressed: () {
+                                              RoutesManager.nextScreen(
+                                                  screen: BusSeatLayoutScreen(
+                                                busListModel: busDetails,
+                                              ));
+                                            },
+                                            child: const Text("Manage"))
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: ElevatedButton(
-                                      onPressed: () {
-                                        RoutesManager.nextScreen(
-                                            screen:
-                                                const BusSeatLayoutScreen());
-                                      },
-                                      child: const Text("Manage")),
                                 )
                               ],
                             ),
                           );
                         },
-                        itemCount: 15),
+                        itemCount: busListProvider.busList.length),
                   )
                 ],
               ),
@@ -174,15 +186,15 @@ class CustomGridWidget extends StatelessWidget {
               children: [
                 Text(
                   heading,
-                  style: TextStyle(
+                  style: const TextStyle(
                       fontSize: 25,
                       color: AppConstents.kWhiteColor,
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
                   subHeading,
-                  style:
-                      TextStyle(fontSize: 10, color: AppConstents.kWhiteColor),
+                  style: const TextStyle(
+                      fontSize: 10, color: AppConstents.kWhiteColor),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0),

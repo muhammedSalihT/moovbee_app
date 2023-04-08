@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:moovbe_app/screens/views/login_screen.dart';
 import 'package:moovbe_app/screens/views/widgets/custom_button_widget.dart';
@@ -21,7 +19,11 @@ class SplashScreen extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: CustomButtonWidget(
-                title: "Get Started",
+                title: const Text(
+                  "Get Started",
+                  style: TextStyle(
+                      color: AppConstents.appPrimeryColor, fontSize: 20),
+                ),
                 backgrounColor: AppConstents.kWhiteColor,
                 titleColor: AppConstents.appPrimeryColor,
                 onTap: () {

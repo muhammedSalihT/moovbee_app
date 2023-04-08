@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:moovbe_app/screens/models/buslist_model.dart';
 import 'package:moovbe_app/screens/view_models/bus_seat_viewmodel.dart';
 import 'package:moovbe_app/utils/constents.dart';
 import 'package:provider/provider.dart';
 
 class BusSeatLayoutScreen extends StatelessWidget {
-  const BusSeatLayoutScreen({super.key});
+  const BusSeatLayoutScreen({super.key, required this.busListModel});
+
+  final BusListModel busListModel;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class BusSeatLayoutScreen extends StatelessWidget {
                           horizontal: 25, vertical: 40),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: const [
                           Text(
                             "Rohit Sharma",
                             style: TextStyle(
@@ -51,14 +56,20 @@ class BusSeatLayoutScreen extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: Image.asset(
-                          "assets/99-996004_get-driving-directions-car-driver-removebg-preview 1.png"),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                              "assets/99-996004_get-driving-directions-car-driver-removebg-preview 1.png"),
+                        ],
+                      ),
                     )
                   ],
                 ),
               ),
             ),
-            const SeatLayoutWidget(),
+            SeatLayoutWidget(
+                busListModel: busListModel,
+                excludedColumn: busListModel.seatType == "1*3" ? 1 : 2),
           ],
         ),
       ),
@@ -67,13 +78,21 @@ class BusSeatLayoutScreen extends StatelessWidget {
 }
 
 class SeatLayoutWidget extends StatelessWidget {
-  const SeatLayoutWidget({super.key});
+  const SeatLayoutWidget(
+      {super.key, required this.busListModel, required this.excludedColumn});
+
+  final BusListModel busListModel;
+  final int numColumns = 5;
+  final int excludedColumn;
 
   @override
   Widget build(BuildContext context) {
+    List<int> excludedIndices = [excludedColumn];
     return Padding(
       padding: const EdgeInsets.fromLTRB(25, 25, 25, 0),
       child: Consumer<BusSeatViewModel>(builder: (context, busSeatProvider, _) {
+        int totalRows = (busListModel.seatCount / numColumns + 1).ceil();
+        log(busListModel.seatCount.toString());
         return Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
@@ -86,120 +105,33 @@ class SeatLayoutWidget extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: const [
-                    Icon(
-                      Icons.chair,
-                      size: 30,
+                    Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: Icon(
+                        Icons.chair,
+                        size: 30,
+                      ),
                     )
                   ],
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                    height: 40,
-                                    child: Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.chair,
-                                          size: 30,
-                                          color: Colors.red,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Visibility(
-                                          visible: busSeatProvider.isChanged
-                                              ? false
-                                              : true,
-                                          child: const Icon(
-                                            Icons.chair,
-                                            size: 30,
-                                            color: Colors.red,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                                itemCount: 8),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 20),
-                            child: ListView.builder(
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return SizedBox(
-                                    height: 40,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        const Icon(
-                                          Icons.chair,
-                                          size: 30,
-                                          color: Colors.red,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        const Icon(
-                                          Icons.chair,
-                                          size: 30,
-                                          color: Colors.red,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Visibility(
-                                          visible: busSeatProvider.isChanged
-                                              ? true
-                                              : false,
-                                          child: const Icon(
-                                            Icons.chair,
-                                            size: 30,
-                                            color: Colors.red,
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                },
-                                itemCount: 8),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          busSeatProvider.changeSeatLayout();
-                        },
-                        child: Text(
-                          "Change to ${busSeatProvider.isChanged ? "2*2" : "1*3"}",
-                          style: const TextStyle(
-                              color: Colors.blue, fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                    ],
+                GridView.builder(
+                  padding: const EdgeInsets.only(top: 10),
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: numColumns,
+                    childAspectRatio: 1.2,
                   ),
+                  itemBuilder: (context, index) {
+                    if (excludedIndices.contains(index % numColumns)) {
+                      return const SizedBox();
+                    }
+                    return const Icon(
+                      Icons.chair,
+                      color: AppConstents.appPrimeryColor,
+                      size: 30,
+                    );
+                  },
+                  itemCount: busListModel.seatCount + totalRows,
                 )
               ],
             ),

@@ -11,7 +11,7 @@ class CustomButtonWidget extends StatelessWidget {
     required this.onTap,
   });
 
-  final String title;
+  final Widget title;
   final Color backgrounColor;
   final Color titleColor;
   final void Function()? onTap;
@@ -19,7 +19,7 @@ class CustomButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(30),
+      padding: const EdgeInsets.all(25),
       child: GestureDetector(
         onTap: onTap,
         child: Container(
@@ -27,12 +27,7 @@ class CustomButtonWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(10), color: backgrounColor),
           width: double.infinity,
           height: Responsive.getHeight(context) * .07,
-          child: Center(
-            child: Text(
-              title,
-              style: TextStyle(color: titleColor, fontSize: 20),
-            ),
-          ),
+          child: Center(child: title),
         ),
       ),
     );

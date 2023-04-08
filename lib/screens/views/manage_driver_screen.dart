@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moovbe_app/screens/views/add_driver_screen.dart';
-import 'package:moovbe_app/screens/views/bus_seat_layout_screen.dart';
 import 'package:moovbe_app/screens/views/widgets/custom_button_widget.dart';
 import 'package:moovbe_app/utils/constents.dart';
 import 'package:moovbe_app/utils/responsive.dart';
@@ -90,11 +89,7 @@ class ManageDriverScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
                             child: ElevatedButton(
-                                onPressed: () {
-                                  RoutesManager.nextScreen(
-                                      screen: const BusSeatLayoutScreen());
-                                },
-                                child: const Text("Delete")),
+                                onPressed: () {}, child: const Text("Delete")),
                           )
                         ],
                       ),
@@ -105,7 +100,11 @@ class ManageDriverScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Expanded(
               child: CustomButtonWidget(
-                title: "Add Driver",
+                title: const Text(
+                  "Add driver",
+                  style:
+                      TextStyle(color: AppConstents.kWhiteColor, fontSize: 20),
+                ),
                 onTap: () {
                   RoutesManager.nextScreen(screen: const AddDriverScreen());
                 },
